@@ -64,6 +64,7 @@ if __name__=='__main__':
                 tmp_dir_str = i[0]
                 tmp_dir_list = i[1]
                 tmp_file_list = i[2]
+                print("Dealing with " + tmp_dir_str)
                 if tmp_dir_str.endswith(".git") or tmp_dir_str.endswith(".gradle") or tmp_dir_str.endswith(".idea") or tmp_dir_str.endswith("build") or tmp_dir_str.endswith("classes") or tmp_dir_str.endswith("target"):
                     continue
                 # start cp
