@@ -43,9 +43,11 @@ if __name__=='__main__':
     file_tail = ".halohoop"
     if not os.path.exists(des_dir_path):
         os.mkdir(des_dir_path)
-    target_paths = ["E:\\Users\\Halohoop\\Desktop\\ssss"]
+    target_paths = ["E:\\Users\\Halohoop\\Desktop\\ssss",
+                    "E:\\projects\\AndroidStudioProjects\\2018\\201812\\ELBSSDK"]
     for tp in target_paths:
         target_path = tp
+        print("Dealing with " + target_path)
         target_dir_name = target_path.split(os.sep)[-1]
         new_target_root_dir = des_dir_path + os.sep + target_dir_name
         if not os.path.exists(new_target_root_dir):
@@ -62,12 +64,17 @@ if __name__=='__main__':
                 tmp_dir_str = i[0]
                 tmp_dir_list = i[1]
                 tmp_file_list = i[2]
+                if tmp_dir_str.endswith(".git") or tmp_dir_str.endswith(".gradle") or tmp_dir_str.endswith(".idea") or tmp_dir_str.endswith("build") or tmp_dir_str.endswith("classes") or tmp_dir_str.endswith("target"):
+                    continue
                 # start cp
                 if tmp_dir_str == target_path:
                     # cp dirs
                     for j in tmp_dir_list:
-                        if not os.path.exists(new_target_root_dir + os.sep + j):
-                            os.mkdir(new_target_root_dir + os.sep + j)
+                        try:
+                            if not os.path.exists(new_target_root_dir + os.sep + j):
+                                os.mkdir(new_target_root_dir + os.sep + j)
+                        except:
+                            pass
                     # cp files
                     for j in tmp_file_list:
                         shutil.copy(tmp_dir_str + os.sep + j,
@@ -75,10 +82,18 @@ if __name__=='__main__':
                 else:
                     relative_tmp_dir_str = tmp_dir_str.replace(target_path + os.sep, "")
                     # cp dirs
-                    if not os.path.exists(new_target_root_dir + os.sep + relative_tmp_dir_str):
-                        os.mkdir(new_target_root_dir + os.sep + relative_tmp_dir_str)
+                    try:
+                        try:
+                            if not os.path.exists(new_target_root_dir + os.sep + relative_tmp_dir_str):
+                                os.mkdir(new_target_root_dir + os.sep + relative_tmp_dir_str)
+                        except:
+                            pass
+                    except:
+                        pass
                     # cp files
                     for j in tmp_file_list:
+                        if j.endswith(".iml"):
+                            continue
                         shutil.copy(tmp_dir_str + os.sep + j,
                                     new_target_root_dir + os.sep + relative_tmp_dir_str + os.sep + j + file_tail)
 
